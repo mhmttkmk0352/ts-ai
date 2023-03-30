@@ -10,7 +10,7 @@ import { createCell } from "./modules/create";
 
 const cors: any = {
     cors: {
-        origin: "https://example.com",
+        origin: "*",
         methods: ["GET", "POST"]
     }
 }
@@ -24,8 +24,8 @@ server.listen(7001, () => {
     console.log("Listening *:7001");
 });
 
-io.on("connection", () => {
-    console.log("connected: ");
+io.on("connection", (socket: any) => {
+    console.log("connected: " + socket.id);
 });
 
 let cellPool: any = {}

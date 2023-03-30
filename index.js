@@ -35,7 +35,7 @@ const helper_1 = __importDefault(require("./helpers/helper"));
 const create_1 = require("./modules/create");
 const cors = {
     cors: {
-        origin: "https://example.com",
+        origin: "*",
         methods: ["GET", "POST"]
     }
 };
@@ -45,8 +45,8 @@ const io = new socketIO.Server(server, cors);
 server.listen(7001, () => {
     console.log("Listening *:7001");
 });
-io.on("connection", () => {
-    console.log("connected: ");
+io.on("connection", (socket) => {
+    console.log("connected: " + socket.id);
 });
 let cellPool = {};
 setInterval(() => {
