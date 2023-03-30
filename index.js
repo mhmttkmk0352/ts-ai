@@ -27,9 +27,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 //Required Modules
+const fs = __importStar(require("fs"));
 const socketIO = __importStar(require("socket.io"));
 const http = __importStar(require("http"));
 const express = __importStar(require("express"));
+const path = __importStar(require("path"));
 // My Modules
 const helper_1 = __importDefault(require("./helpers/helper"));
 const create_1 = require("./modules/create");
@@ -52,20 +54,29 @@ let draw = (socket) => {
         let lifePoint = helper_1.default.getRandomNumber(100);
         let x = helper_1.default.getRandomNumber(1000);
         let y = helper_1.default.getRandomNumber(1000);
-        cellPool[id] = (0, create_1.createCell)({
-            id,
-            gender: true,
-            actionList: [],
-            lifePoint,
-            x,
-            y,
-        });
-        socket.emit("draw", cellPool);
-        console.log({ cellPool });
-        //helper.save(cellPool);
-    }, 100);
+        if (!cellPool[id]) {
+            cellPool[id] = (0, create_1.createCell)({
+                id,
+                gender: true,
+                actionList: [],
+                lifePoint,
+                x,
+                y,
+            });
+            socket.emit("draw", cellPool);
+            console.log({ cellPool: Object.keys(cellPool).length });
+            helper_1.default.save(cellPool);
+        }
+    }, 5000);
 };
 io.on("connection", (socket) => {
-    draw(socket);
+    if (fs.existsSync(path.resolve("data", "logs.json"))) {
+        cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
+        socket.emit("draw", cellPool);
+        draw(socket);
+    }
+    else {
+        draw(socket);
+    }
     console.log("connected: " + socket.id);
 });

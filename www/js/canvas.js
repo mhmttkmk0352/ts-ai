@@ -31,6 +31,7 @@ function whenLoad() {
 
 
 socket.on("draw", function (data) {
+    console.log(data);
     context.clearRect(0, 0, canvas.width, canvas.height);
     for (var item in data) {
         createCell(data[item].x, data[item].y, data[item].lifePoint);

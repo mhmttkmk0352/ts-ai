@@ -1,7 +1,9 @@
 //Required Modules
+import * as fs from "fs";
 import * as socketIO from "socket.io"
 import * as http from "http";
 import * as express from "express";
+import * as path from "path";
 
 // My Modules
 import helper from "./helpers/helper";
@@ -39,25 +41,41 @@ let draw: any = (socket: any) => {
         let x: number = helper.getRandomNumber(1000);
         let y: number = helper.getRandomNumber(1000);
 
-        cellPool[id] = createCell({
-            id,
-            gender: true,
-            actionList: [],
-            lifePoint,
-            x,
-            y,
-        });
+        if (!cellPool[id]) {
+            cellPool[id] = createCell({
+                id,
+                gender: true,
+                actionList: [],
+                lifePoint,
+                x,
+                y,
+            });
 
-        socket.emit("draw", cellPool);
-        console.log({cellPool});
-        //helper.save(cellPool);
-    }, 100);
+            socket.emit("draw", cellPool);
+            console.log({ cellPool: Object.keys(cellPool).length });
+            helper.save(cellPool);
+        }
+
+
+    }, 5000);
 }
 
 
 
 
 io.on("connection", (socket: any) => {
-    draw(socket);
+
+    if (fs.existsSync(path.resolve("data", "logs.json"))) {
+        cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
+
+        socket.emit("draw", cellPool);
+        draw(socket);
+    }
+    else {
+        draw(socket);
+    }
+
+
+
     console.log("connected: " + socket.id);
 });
