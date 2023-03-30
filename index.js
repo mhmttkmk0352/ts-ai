@@ -45,18 +45,22 @@ const io = new socketIO.Server(server, cors);
 server.listen(7001, () => {
     console.log("Listening *:7001");
 });
+let cellPool = {};
+let draw = (socket) => {
+    setInterval(() => {
+        let id = helper_1.default.getRandomNumber(1000000000000);
+        let lifePoint = helper_1.default.getRandomNumber(100);
+        cellPool[id] = (0, create_1.createCell)({
+            id,
+            gender: true,
+            actionList: [],
+            lifePoint
+        });
+        socket.emit("draw", cellPool);
+        //helper.save(cellPool);
+    }, 5000);
+};
 io.on("connection", (socket) => {
+    draw(socket);
     console.log("connected: " + socket.id);
 });
-let cellPool = {};
-setInterval(() => {
-    let id = helper_1.default.getRandomNumber(1000000000000);
-    let lifePoint = helper_1.default.getRandomNumber(100);
-    cellPool[id] = (0, create_1.createCell)({
-        id,
-        gender: true,
-        actionList: [],
-        lifePoint
-    });
-    helper_1.default.save(cellPool);
-}, 5000);

@@ -24,24 +24,36 @@ server.listen(7001, () => {
     console.log("Listening *:7001");
 });
 
-io.on("connection", (socket: any) => {
-    console.log("connected: " + socket.id);
-});
+
 
 let cellPool: any = {}
 
 
-setInterval(() => {
-    let id: number = helper.getRandomNumber(1000000000000);
-    let lifePoint: number = helper.getRandomNumber(100);
 
-    cellPool[id] = createCell({
-        id,
-        gender: true,
-        actionList: [],
-        lifePoint
-    });
 
-    helper.save(cellPool);
-}, 5000);
 
+let draw: any = (socket: any) => {
+    setInterval(() => {
+        let id: number = helper.getRandomNumber(1000000000000);
+        let lifePoint: number = helper.getRandomNumber(100);
+
+        cellPool[id] = createCell({
+            id,
+            gender: true,
+            actionList: [],
+            lifePoint
+        });
+
+        socket.emit("draw", cellPool);
+
+        //helper.save(cellPool);
+    }, 5000);
+}
+
+
+
+
+io.on("connection", (socket: any) => {
+    draw(socket);
+    console.log("connected: " + socket.id);
+});

@@ -8,6 +8,10 @@ socket.on("connect", function () {
     console.log({ sid: socket.id });
 });
 
+socket.on("draw", function(data){
+    console.log(data);
+});
+
 window.onload = function () {
     whenLoad()
 }
