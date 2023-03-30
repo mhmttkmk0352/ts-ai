@@ -8,19 +8,18 @@ socket.on("connect", function () {
     console.log({ sid: socket.id });
 });
 
-socket.on("draw", function(data){
-    console.log(data);
-});
+
 
 window.onload = function () {
     whenLoad()
 }
 
 
-function createCell() {
+function createCell(x, y, lifePoint) {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = "yellow"
-    context.fillRect(getRandomNumber(canvas.width), getRandomNumber(canvas.width), 1, 25);
+    context.fillStyle = "white"
+    context.fillRect(x, y, 1, 1);
+    console.log({ x, y, lifePoint });
 }
 
 function whenLoad() {
@@ -29,11 +28,11 @@ function whenLoad() {
 
     canvas.width = 1000;
     canvas.height = 1000;
-
-
-    setInterval(function () {
-        createCell();
-    }, 5000);
-
-
 }
+
+
+socket.on("draw", function (data) {
+    for (var item in data) {
+        createCell(data[item].x, data[item].y, data[item].lifePoint);
+    }
+});

@@ -1,6 +1,8 @@
 export interface Cell {
-    id:number,
+    id: number,
     gender: boolean, // girl:false, boy: true
     actionList: Array<Number>
-    lifePoint: number
+    lifePoint: number,
+    x: number,
+    y: number
 }

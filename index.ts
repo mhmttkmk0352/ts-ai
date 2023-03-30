@@ -36,18 +36,22 @@ let draw: any = (socket: any) => {
     setInterval(() => {
         let id: number = helper.getRandomNumber(1000000000000);
         let lifePoint: number = helper.getRandomNumber(100);
+        let x: number = helper.getRandomNumber(1000);
+        let y: number = helper.getRandomNumber(100);
 
         cellPool[id] = createCell({
             id,
             gender: true,
             actionList: [],
-            lifePoint
+            lifePoint,
+            x,
+            y,
         });
 
         socket.emit("draw", cellPool);
-
+        console.log({cellPool});
         //helper.save(cellPool);
-    }, 5000);
+    }, 1000);
 }
 
 
