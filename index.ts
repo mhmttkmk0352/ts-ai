@@ -37,7 +37,7 @@ let draw: any = (socket: any) => {
         let id: number = helper.getRandomNumber(1000000000000);
         let lifePoint: number = helper.getRandomNumber(100);
         let x: number = helper.getRandomNumber(1000);
-        let y: number = helper.getRandomNumber(100);
+        let y: number = helper.getRandomNumber(1000);
 
         cellPool[id] = createCell({
             id,
@@ -51,7 +51,7 @@ let draw: any = (socket: any) => {
         socket.emit("draw", cellPool);
         console.log({cellPool});
         //helper.save(cellPool);
-    }, 1000);
+    }, 100);
 }
 
 
