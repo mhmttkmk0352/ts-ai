@@ -74,7 +74,6 @@ let draw = (socket) => {
             });
             socket.emit("draw", cellPool);
             console.log({ cellPool: Object.keys(cellPool).length });
-            helper_1.default.save(cellPool);
         }
     }, 500);
 };
@@ -90,4 +89,7 @@ io.on("connection", (socket) => {
         moveCell(socket);
     }
     console.log("connected: " + socket.id);
+});
+process.on("SIGINT", () => {
+    helper_1.default.save(cellPool);
 });

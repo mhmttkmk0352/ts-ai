@@ -64,7 +64,7 @@ let draw: any = (socket: any) => {
 
             socket.emit("draw", cellPool);
             console.log({ cellPool: Object.keys(cellPool).length });
-            helper.save(cellPool);
+           
         }
 
 
@@ -89,4 +89,11 @@ io.on("connection", (socket: any) => {
     }
 
     console.log("connected: " + socket.id);
+});
+
+
+
+
+process.on("SIGINT", () => {
+    helper.save(cellPool);
 });
