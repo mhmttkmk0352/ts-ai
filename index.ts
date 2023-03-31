@@ -39,7 +39,7 @@ let moveCell: any = (socket: any) => {
             cellPool[item].y += helper.getRandomWay();
         }
         socket.emit("draw", cellPool);
-    }, 10);
+    }, 1);
 
 }
 
@@ -49,8 +49,8 @@ let draw: any = (socket: any) => {
     setInterval(() => {
         let id: number = helper.getRandomNumber(1000000000000);
         let lifePoint: number = helper.getRandomNumber(100);
-        let x: number = helper.getRandomNumber(1000);
-        let y: number = helper.getRandomNumber(1000);
+        let x: number = helper.getRandomNumber(1900);
+        let y: number = helper.getRandomNumber(1900);
 
         if (!cellPool[id]) {
             cellPool[id] = createCell({
@@ -68,7 +68,7 @@ let draw: any = (socket: any) => {
         }
 
 
-    }, 500);
+    }, 5000);
 }
 
 

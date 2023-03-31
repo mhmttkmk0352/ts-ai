@@ -25,14 +25,14 @@ function whenLoad() {
     canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
 
-    canvas.width = 1000;
-    canvas.height = 1000;
+    canvas.width = 1900;
+    canvas.height = 1200;
 }
 
 
 socket.on("draw", function (data) {
     console.log(data);
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    //context.clearRect(0, 0, canvas.width, canvas.height);
     for (var item in data) {
         createCell(data[item].x, data[item].y, data[item].lifePoint);
     }

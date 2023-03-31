@@ -55,14 +55,14 @@ let moveCell = (socket) => {
             cellPool[item].y += helper_1.default.getRandomWay();
         }
         socket.emit("draw", cellPool);
-    }, 10);
+    }, 1);
 };
 let draw = (socket) => {
     setInterval(() => {
         let id = helper_1.default.getRandomNumber(1000000000000);
         let lifePoint = helper_1.default.getRandomNumber(100);
-        let x = helper_1.default.getRandomNumber(1000);
-        let y = helper_1.default.getRandomNumber(1000);
+        let x = helper_1.default.getRandomNumber(1900);
+        let y = helper_1.default.getRandomNumber(1900);
         if (!cellPool[id]) {
             cellPool[id] = (0, create_1.createCell)({
                 id,
@@ -75,7 +75,7 @@ let draw = (socket) => {
             socket.emit("draw", cellPool);
             console.log({ cellPool: Object.keys(cellPool).length });
         }
-    }, 500);
+    }, 5000);
 };
 io.on("connection", (socket) => {
     if (fs.existsSync(path.resolve("data", "logs.json"))) {
