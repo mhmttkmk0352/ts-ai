@@ -51,11 +51,44 @@ let cellPool = {};
 let moveCell = (socket) => {
     setInterval(() => {
         for (var item in cellPool) {
-            cellPool[item].x += helper_1.default.getRandomWay();
-            cellPool[item].y += helper_1.default.getRandomWay();
+            let way_x = helper_1.default.getRandomWay();
+            let way_y = helper_1.default.getRandomWay();
+            cellPool[item].actionList.push({ x: way_x, y: way_y });
+            cellPool[item].x += way_x;
+            cellPool[item].y += way_y;
         }
         socket.emit("draw", cellPool);
-    }, 1);
+        console.log("actionList:");
+        console.log(cellPool);
+    }, 60000 * 60 * 24);
+};
+// 879980138340
+let simulator = (socket, id, cellPool) => {
+    console.log(cellPool[720413192455]);
+    if (cellPool[id] && cellPool[id].actionList && cellPool[id].actionList.length > 0) {
+        let x = 1250;
+        let y = 500;
+        cellPool[id].actionList.forEach((value, key) => {
+            console.log({ value });
+            let lifePoint = helper_1.default.getRandomNumber(100);
+            let color = cellPool[id].color;
+            let size = 1;
+            x += value.x;
+            y += value.y;
+            let simulatorCell = {
+                id,
+                gender: true,
+                actionList: [],
+                lifePoint,
+                x,
+                y,
+                color,
+                size
+            };
+            cellPool[id] = simulatorCell;
+            socket.emit("draw", cellPool);
+        });
+    }
 };
 let draw = (socket) => {
     setInterval(() => {
@@ -79,7 +112,7 @@ let draw = (socket) => {
             socket.emit("draw", cellPool);
             console.log({ cellPool: Object.keys(cellPool).length });
         }
-    }, 1);
+    }, 60000 * 60 * 24);
 };
 io.on("connection", (socket) => {
     if (fs.existsSync(path.resolve("data", "logs.json"))) {
@@ -87,6 +120,8 @@ io.on("connection", (socket) => {
         socket.emit("draw", cellPool);
         draw(socket);
         moveCell(socket);
+        simulator(socket, 983318122603, cellPool);
+        simulator(socket, 264099057405, cellPool);
     }
     else {
         draw(socket);
