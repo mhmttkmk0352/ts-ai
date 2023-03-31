@@ -69,7 +69,6 @@ let simulator = (socket, id, cellPool) => {
         let x = 1250;
         let y = 500;
         cellPool[id].actionList.forEach((value, key) => {
-            console.log({ value });
             let lifePoint = helper_1.default.getRandomNumber(100);
             let color = cellPool[id].color;
             let size = 1;
@@ -120,8 +119,8 @@ io.on("connection", (socket) => {
         socket.emit("draw", cellPool);
         draw(socket);
         moveCell(socket);
-        simulator(socket, 983318122603, cellPool);
-        simulator(socket, 264099057405, cellPool);
+        simulator(socket, 470440999554, cellPool);
+        simulator(socket, 475510492273, cellPool);
     }
     else {
         draw(socket);
