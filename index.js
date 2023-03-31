@@ -81,11 +81,11 @@ io.on("connection", (socket) => {
     if (fs.existsSync(path.resolve("data", "logs.json"))) {
         cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
         socket.emit("draw", cellPool);
-        //draw(socket);
+        draw(socket);
         moveCell(socket);
     }
     else {
-        //draw(socket);
+        draw(socket);
         moveCell(socket);
     }
     console.log("connected: " + socket.id);

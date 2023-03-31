@@ -80,11 +80,11 @@ io.on("connection", (socket: any) => {
         cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
 
         socket.emit("draw", cellPool);
-        //draw(socket);
+        draw(socket);
         moveCell(socket);
     }
     else {
-        //draw(socket);
+        draw(socket);
         moveCell(socket);
     }
 
