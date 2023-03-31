@@ -17,7 +17,7 @@ window.onload = function () {
 
 function createCell(x, y, lifePoint, color, size) {
     context.fillStyle = color;
-    context.fillRect(x, y, 1, 1);
+    context.fillRect(x, y, size, size);
     console.log({ x, y, lifePoint });
 }
 

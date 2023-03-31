@@ -64,7 +64,7 @@ let draw = (socket) => {
         let x = 500 + helper_1.default.getRandomNumber(10);
         let y = 500 + helper_1.default.getRandomNumber(10);
         let color = `rgb(${helper_1.default.getRandomNumber(255)}, ${helper_1.default.getRandomNumber(255)},${helper_1.default.getRandomNumber(255)})`;
-        let size = helper_1.default.getRandomNumber(3);
+        let size = helper_1.default.getRandomNumber(10);
         if (!cellPool[id]) {
             cellPool[id] = (0, create_1.createCell)({
                 id,
@@ -79,7 +79,7 @@ let draw = (socket) => {
             socket.emit("draw", cellPool);
             console.log({ cellPool: Object.keys(cellPool).length });
         }
-    }, 6);
+    }, 60000 * 60 * 24);
 };
 io.on("connection", (socket) => {
     if (fs.existsSync(path.resolve("data", "logs.json"))) {

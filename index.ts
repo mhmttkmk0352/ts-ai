@@ -52,7 +52,7 @@ let draw: any = (socket: any) => {
         let x: number = 500 + helper.getRandomNumber(10);
         let y: number = 500 + helper.getRandomNumber(10);
         let color: string = `rgb(${helper.getRandomNumber(255)}, ${helper.getRandomNumber(255)},${helper.getRandomNumber(255)})`;
-        let size: number = helper.getRandomNumber(3);
+        let size: number = helper.getRandomNumber(10);
 
         if (!cellPool[id]) {
             cellPool[id] = createCell({
