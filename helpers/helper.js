@@ -8,6 +8,15 @@ class Helper {
         this.getRandomNumber = (lastNumber) => {
             return Math.floor(Math.random() * lastNumber);
         };
+        this.getRandomWay = () => {
+            let randomNumber = this.getRandomNumber(12);
+            if (randomNumber % 2 === 0) {
+                return 1;
+            }
+            else if (randomNumber % 2 === 1) {
+                return -1;
+            }
+        };
         this.save = (data) => {
             fs_1.default.writeFileSync("data/logs.json", JSON.stringify(data));
         };

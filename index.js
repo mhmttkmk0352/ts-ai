@@ -48,6 +48,15 @@ server.listen(7001, () => {
     console.log("Listening *:7001");
 });
 let cellPool = {};
+let moveCell = (socket) => {
+    setInterval(() => {
+        for (var item in cellPool) {
+            cellPool[item].x += helper_1.default.getRandomWay();
+            cellPool[item].y += helper_1.default.getRandomWay();
+        }
+        socket.emit("draw", cellPool);
+    }, 10);
+};
 let draw = (socket) => {
     setInterval(() => {
         let id = helper_1.default.getRandomNumber(1000000000000);
@@ -67,16 +76,18 @@ let draw = (socket) => {
             console.log({ cellPool: Object.keys(cellPool).length });
             helper_1.default.save(cellPool);
         }
-    }, 5000);
+    }, 500);
 };
 io.on("connection", (socket) => {
     if (fs.existsSync(path.resolve("data", "logs.json"))) {
         cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
         socket.emit("draw", cellPool);
-        draw(socket);
+        //draw(socket);
+        moveCell(socket);
     }
     else {
-        draw(socket);
+        //draw(socket);
+        moveCell(socket);
     }
     console.log("connected: " + socket.id);
 });

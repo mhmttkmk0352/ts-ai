@@ -32,6 +32,17 @@ let cellPool: any = {}
 
 
 
+let moveCell: any = (socket: any) => {
+    setInterval(() => {
+        for (var item in cellPool) {
+            cellPool[item].x += helper.getRandomWay();
+            cellPool[item].y += helper.getRandomWay();
+        }
+        socket.emit("draw", cellPool);
+    }, 10);
+
+}
+
 
 
 let draw: any = (socket: any) => {
@@ -57,7 +68,7 @@ let draw: any = (socket: any) => {
         }
 
 
-    }, 5000);
+    }, 500);
 }
 
 
@@ -69,13 +80,13 @@ io.on("connection", (socket: any) => {
         cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
 
         socket.emit("draw", cellPool);
-        draw(socket);
+        //draw(socket);
+        moveCell(socket);
     }
     else {
-        draw(socket);
+        //draw(socket);
+        moveCell(socket);
     }
-
-
 
     console.log("connected: " + socket.id);
 });
