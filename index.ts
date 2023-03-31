@@ -46,7 +46,7 @@ let moveCell: any = (socket: any) => {
         socket.emit("draw", cellPool);
         console.log("actionList:");
         console.log(cellPool);
-    }, 60000 * 60 * 24);
+    }, 100);
 
 
 
@@ -129,11 +129,11 @@ io.on("connection", (socket: any) => {
     if (fs.existsSync(path.resolve("data", "logs.json"))) {
         cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
 
-        socket.emit("draw", cellPool);
+        //socket.emit("draw", cellPool);
         draw(socket);
         moveCell(socket);
-        simulator(socket, 470440999554, cellPool);
-        simulator(socket, 475510492273, cellPool);
+        //simulator(socket, 636022980536, cellPool);
+
     }
     else {
         draw(socket);

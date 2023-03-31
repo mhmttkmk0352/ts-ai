@@ -60,7 +60,7 @@ let moveCell = (socket) => {
         socket.emit("draw", cellPool);
         console.log("actionList:");
         console.log(cellPool);
-    }, 60000 * 60 * 24);
+    }, 1000);
 };
 // 879980138340
 let simulator = (socket, id, cellPool) => {
@@ -111,16 +111,15 @@ let draw = (socket) => {
             socket.emit("draw", cellPool);
             console.log({ cellPool: Object.keys(cellPool).length });
         }
-    }, 60000 * 60 * 24);
+    }, 10000);
 };
 io.on("connection", (socket) => {
     if (fs.existsSync(path.resolve("data", "logs.json"))) {
         cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
-        socket.emit("draw", cellPool);
+        //socket.emit("draw", cellPool);
         draw(socket);
         moveCell(socket);
-        simulator(socket, 470440999554, cellPool);
-        simulator(socket, 475510492273, cellPool);
+        //simulator(socket, 636022980536, cellPool);
     }
     else {
         draw(socket);
