@@ -39,7 +39,7 @@ let moveCell: any = (socket: any) => {
             cellPool[item].y += helper.getRandomWay();
         }
         socket.emit("draw", cellPool);
-    }, 1);
+    }, 100);
 
 }
 
@@ -52,6 +52,7 @@ let draw: any = (socket: any) => {
         let x: number = 500 + helper.getRandomNumber(10);
         let y: number = 500 + helper.getRandomNumber(10);
         let color: string = `rgb(${helper.getRandomNumber(255)}, ${helper.getRandomNumber(255)},${helper.getRandomNumber(255)})`;
+        let size: number = helper.getRandomNumber(3);
 
         if (!cellPool[id]) {
             cellPool[id] = createCell({
@@ -61,7 +62,8 @@ let draw: any = (socket: any) => {
                 lifePoint,
                 x,
                 y,
-                color
+                color,
+                size
             });
 
             socket.emit("draw", cellPool);
@@ -70,7 +72,7 @@ let draw: any = (socket: any) => {
         }
 
 
-    }, 500000000000);
+    }, 60000 * 60 * 24);
 }
 
 
@@ -82,11 +84,11 @@ io.on("connection", (socket: any) => {
         cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
 
         socket.emit("draw", cellPool);
-        //draw(socket);
+        draw(socket);
         moveCell(socket);
     }
     else {
-        //draw(socket);
+        draw(socket);
         moveCell(socket);
     }
 

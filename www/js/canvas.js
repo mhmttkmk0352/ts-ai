@@ -15,7 +15,7 @@ window.onload = function () {
 }
 
 
-function createCell(x, y, lifePoint, color) {
+function createCell(x, y, lifePoint, color, size) {
     context.fillStyle = color;
     context.fillRect(x, y, 1, 1);
     console.log({ x, y, lifePoint });
@@ -34,6 +34,6 @@ socket.on("draw", function (data) {
 
     context.clearRect(0, 0, canvas.width, canvas.height);
     for (var item in data) {
-        createCell(data[item].x, data[item].y, data[item].lifePoint, data[item].color);
+        createCell(data[item].x, data[item].y, data[item].lifePoint, data[item].color, data[item].size);
     }
 });

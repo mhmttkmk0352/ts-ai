@@ -5,5 +5,6 @@ export interface Cell {
     lifePoint: number,
     x: number,
     y: number,
-    color: string
+    color: string,
+    size: number
 }
