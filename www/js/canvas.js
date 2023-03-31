@@ -16,7 +16,7 @@ window.onload = function () {
 
 
 function createCell(x, y, lifePoint) {
-    context.fillStyle = "white"
+    context.fillStyle = `rgb(${getRandomNumber(255)}, ${getRandomNumber(255)},${getRandomNumber(255)})`
     context.fillRect(x, y, 1, 1);
     console.log({ x, y, lifePoint });
 }
