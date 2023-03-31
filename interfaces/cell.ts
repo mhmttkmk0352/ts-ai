@@ -4,5 +4,6 @@ export interface Cell {
     actionList: Array<Number>
     lifePoint: number,
     x: number,
-    y: number
+    y: number,
+    color: string
 }

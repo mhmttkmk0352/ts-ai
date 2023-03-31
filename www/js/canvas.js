@@ -15,8 +15,8 @@ window.onload = function () {
 }
 
 
-function createCell(x, y, lifePoint) {
-    context.fillStyle = `rgb(${getRandomNumber(255)}, ${getRandomNumber(255)},${getRandomNumber(255)})`
+function createCell(x, y, lifePoint, color) {
+    context.fillStyle = color;
     context.fillRect(x, y, 1, 1);
     console.log({ x, y, lifePoint });
 }
@@ -34,6 +34,6 @@ socket.on("draw", function (data) {
     console.log(data);
     //context.clearRect(0, 0, canvas.width, canvas.height);
     for (var item in data) {
-        createCell(data[item].x, data[item].y, data[item].lifePoint);
+        createCell(data[item].x, data[item].y, data[item].lifePoint, data[item].color);
     }
 });

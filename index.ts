@@ -51,6 +51,7 @@ let draw: any = (socket: any) => {
         let lifePoint: number = helper.getRandomNumber(100);
         let x: number = helper.getRandomNumber(1900);
         let y: number = helper.getRandomNumber(1900);
+        let color: string = `rgb(${helper.getRandomNumber(255)}, ${helper.getRandomNumber(255)},${helper.getRandomNumber(255)})`;
 
         if (!cellPool[id]) {
             cellPool[id] = createCell({
@@ -60,11 +61,12 @@ let draw: any = (socket: any) => {
                 lifePoint,
                 x,
                 y,
+                color
             });
 
             socket.emit("draw", cellPool);
             console.log({ cellPool: Object.keys(cellPool).length });
-           
+
         }
 
 
