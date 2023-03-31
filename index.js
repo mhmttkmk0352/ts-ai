@@ -92,4 +92,5 @@ io.on("connection", (socket) => {
 });
 process.on("SIGINT", () => {
     helper_1.default.save(cellPool);
+    process.exit();
 });
