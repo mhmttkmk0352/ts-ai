@@ -47,7 +47,7 @@ let moveCell: any = (socket: any) => {
         socket.emit("draw", cellPool);
         console.log("actionList:");
         console.log(cellPool);
-    }, 100);
+    }, 10);
 
 
 
@@ -130,7 +130,7 @@ io.on("connection", (socket: any) => {
     draw(socket);
     moveCell(socket);
     
-    //simulator(socket, 135764200517);
+    //simulator(socket, 990390957550);
 
 });
 

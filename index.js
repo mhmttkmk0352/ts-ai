@@ -68,7 +68,7 @@ let moveCell = (socket) => {
         socket.emit("draw", cellPool);
         console.log("actionList:");
         console.log(cellPool);
-    }, 100);
+    }, 10);
 };
 // 879980138340
 let simulator = (socket, key) => __awaiter(void 0, void 0, void 0, function* () {
@@ -124,9 +124,9 @@ let draw = (socket) => {
 };
 io.on("connection", (socket) => {
     console.log("connected: " + socket.id);
-    draw(socket);
-    moveCell(socket);
-    //simulator(socket, 135764200517);
+    //draw(socket);
+    //moveCell(socket);
+    simulator(socket, 990390957550);
 });
 process.on("SIGINT", () => {
     process.exit();
