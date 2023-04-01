@@ -6,8 +6,11 @@ import * as express from "express";
 import * as path from "path";
 
 // My Modules
+import redis from "./services/redis";
 import helper from "./helpers/helper";
 import { createCell } from "./modules/create";
+
+
 
 
 const cors: any = {
@@ -34,15 +37,15 @@ let cellPool: any = {}
 
 let moveCell: any = (socket: any) => {
     setInterval(() => {
-        for (var item in cellPool) {
+        for (let item in cellPool) {
             let way_x: any = helper.getRandomWay();
             let way_y: any = helper.getRandomWay();
 
-            cellPool[item].actionList.push({ x: way_x, y: way_y });
-
             cellPool[item].x += way_x;
             cellPool[item].y += way_y;
+            redis.lpush(item, `${way_x}:${way_y}`).then();
         }
+
         socket.emit("draw", cellPool);
         console.log("actionList:");
         console.log(cellPool);
@@ -130,14 +133,14 @@ io.on("connection", (socket: any) => {
         cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
 
         //socket.emit("draw", cellPool);
-        //draw(socket);
-        //moveCell(socket);
-        simulator(socket, 830499230008, cellPool);
+        draw(socket);
+        moveCell(socket);
+        //simulator(socket, 830499230008, cellPool);
 
     }
     else {
-        //draw(socket);
-        //moveCell(socket);
+        draw(socket);
+        moveCell(socket);
     }
 
     console.log("connected: " + socket.id);

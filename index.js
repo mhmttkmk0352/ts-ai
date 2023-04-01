@@ -33,6 +33,7 @@ const http = __importStar(require("http"));
 const express = __importStar(require("express"));
 const path = __importStar(require("path"));
 // My Modules
+const redis_1 = __importDefault(require("./services/redis"));
 const helper_1 = __importDefault(require("./helpers/helper"));
 const create_1 = require("./modules/create");
 const cors = {
@@ -50,12 +51,12 @@ server.listen(7001, () => {
 let cellPool = {};
 let moveCell = (socket) => {
     setInterval(() => {
-        for (var item in cellPool) {
+        for (let item in cellPool) {
             let way_x = helper_1.default.getRandomWay();
             let way_y = helper_1.default.getRandomWay();
-            cellPool[item].actionList.push({ x: way_x, y: way_y });
             cellPool[item].x += way_x;
             cellPool[item].y += way_y;
+            redis_1.default.lpush(item, `${way_x}:${way_y}`).then();
         }
         socket.emit("draw", cellPool);
         console.log("actionList:");
@@ -111,19 +112,19 @@ let draw = (socket) => {
             socket.emit("draw", cellPool);
             console.log({ cellPool: Object.keys(cellPool).length });
         }
-    }, 60000 * 60 * 24);
+    }, 600);
 };
 io.on("connection", (socket) => {
     if (fs.existsSync(path.resolve("data", "logs.json"))) {
         cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
         //socket.emit("draw", cellPool);
-        //draw(socket);
-        //moveCell(socket);
-        simulator(socket, 830499230008, cellPool);
+        draw(socket);
+        moveCell(socket);
+        //simulator(socket, 830499230008, cellPool);
     }
     else {
-        //draw(socket);
-        //moveCell(socket);
+        draw(socket);
+        moveCell(socket);
     }
     console.log("connected: " + socket.id);
 });
