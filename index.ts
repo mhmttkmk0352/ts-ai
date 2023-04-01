@@ -41,13 +41,12 @@ let moveCell: any = (socket: any) => {
 
             cellPool[item].x += way_x;
             cellPool[item].y += way_y;
-            redis.lpush(item, `${way_x}:${way_y}`).then();
+            //redis.lpush(item, `${way_x}:${way_y}`);
         }
 
         socket.emit("draw", cellPool);
-        console.log("actionList:");
-        console.log(cellPool);
-    }, 10);
+
+    }, 1);
 
 
 
@@ -73,7 +72,7 @@ let simulator = async (socket: any, key: number) => {
         x += parseInt(value[0]);
         y += parseInt(value[1]);
 
-        let simulatorCell = {
+        let simulatorCell = createCell({
             id,
             gender: true,
             actionList: [],
@@ -82,7 +81,8 @@ let simulator = async (socket: any, key: number) => {
             y,
             color,
             size
-        };
+        });
+
         let simulateCell: any = {}
         simulateCell[id] = simulatorCell;
         socket.emit("draw", simulateCell);
@@ -114,7 +114,6 @@ let draw: any = (socket: any) => {
             });
 
             socket.emit("draw", cellPool);
-            console.log({ cellPool: Object.keys(cellPool).length });
 
         }
 
@@ -129,8 +128,8 @@ io.on("connection", (socket: any) => {
 
     draw(socket);
     moveCell(socket);
-    
-    //simulator(socket, 990390957550);
+
+    // simulator(socket, 208921884416);
 
 });
 

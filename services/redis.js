@@ -13,12 +13,7 @@ class RedisClass {
     constructor() {
         this.lpush = (key, data) => {
             //await this.tedis.lpush(89, "a", "b", "c");
-            return new Promise((resolve, reject) => {
-                (() => __awaiter(this, void 0, void 0, function* () {
-                    let lpushResult = yield this.tedis.lpush(key, data);
-                    resolve(lpushResult);
-                }))();
-            });
+            this.tedis.lpush(key, data);
         };
         this.lrange = (key) => {
             return new Promise((resolve, reject) => {

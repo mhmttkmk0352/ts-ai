@@ -63,12 +63,12 @@ let moveCell = (socket) => {
             let way_y = helper_1.default.getRandomWay();
             cellPool[item].x += way_x;
             cellPool[item].y += way_y;
-            redis_1.default.lpush(item, `${way_x}:${way_y}`).then();
+            //redis.lpush(item, `${way_x}:${way_y}`);
         }
         socket.emit("draw", cellPool);
         console.log("actionList:");
         console.log(cellPool);
-    }, 10);
+    }, 1);
 };
 // 879980138340
 let simulator = (socket, key) => __awaiter(void 0, void 0, void 0, function* () {
@@ -83,7 +83,7 @@ let simulator = (socket, key) => __awaiter(void 0, void 0, void 0, function* () 
         let value = actionList[item].split(":");
         x += parseInt(value[0]);
         y += parseInt(value[1]);
-        let simulatorCell = {
+        let simulatorCell = (0, create_1.createCell)({
             id,
             gender: true,
             actionList: [],
@@ -92,7 +92,7 @@ let simulator = (socket, key) => __awaiter(void 0, void 0, void 0, function* () 
             y,
             color,
             size
-        };
+        });
         let simulateCell = {};
         simulateCell[id] = simulatorCell;
         socket.emit("draw", simulateCell);
@@ -124,9 +124,9 @@ let draw = (socket) => {
 };
 io.on("connection", (socket) => {
     console.log("connected: " + socket.id);
-    //draw(socket);
-    //moveCell(socket);
-    simulator(socket, 990390957550);
+    draw(socket);
+    moveCell(socket);
+    // simulator(socket, 208921884416);
 });
 process.on("SIGINT", () => {
     process.exit();
