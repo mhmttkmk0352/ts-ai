@@ -59,13 +59,9 @@ let moveCell: any = (socket: any) => {
 
 let simulator = async (socket: any, key: number) => {
 
-
     var x: number = 1250;
     var y: number = 500;
-
     let actionList: any = await redis.lrange(key);
-    console.log(typeof actionList);
-
 
     for (let item in actionList) {
         let id: number = helper.getRandomNumber(100000000);
@@ -74,8 +70,6 @@ let simulator = async (socket: any, key: number) => {
         let size: number = 1;
 
         let value: any = actionList[item].split(":");
-
-
         x += parseInt(value[0]);
         y += parseInt(value[1]);
 
@@ -94,33 +88,6 @@ let simulator = async (socket: any, key: number) => {
         socket.emit("draw", simulateCell);
 
     }
-
-    return false;
-    /*
-    //cellPool[id].actionList.forEach((value: any, key: number) => {
-        let lifePoint: number = helper.getRandomNumber(100);
-        let color: string = cellPool[id].color;
-        let size: number = 1;
-
-        x += value.x;
-        y += value.y;
-
-        let simulatorCell: any = {
-            id,
-            gender: true,
-            actionList: [],
-            lifePoint,
-            x,
-            y,
-            color,
-            size
-        };
-        cellPool[id] = simulatorCell;
-        socket.emit("draw", cellPool);
-    //});
-    */
-
-
 }
 
 
