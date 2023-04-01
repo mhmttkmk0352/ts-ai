@@ -79,8 +79,6 @@ let simulator = async (socket: any, key: number) => {
         x += parseInt(value[0]);
         y += parseInt(value[1]);
 
-        console.log({ x, y })
-
         let simulatorCell = {
             id,
             gender: true,
