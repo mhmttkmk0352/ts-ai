@@ -125,23 +125,14 @@ let draw: any = (socket: any) => {
 
 
 io.on("connection", (socket: any) => {
-
-
-
-
-    //socket.emit("draw", cellPool);
-    //draw(socket);
-    //moveCell(socket);
-    //
-
-    simulator(socket, 135764200517);
-
-
     console.log("connected: " + socket.id);
+
+    draw(socket);
+    moveCell(socket);
+    
+    //simulator(socket, 135764200517);
+
 });
-
-
-
 
 
 

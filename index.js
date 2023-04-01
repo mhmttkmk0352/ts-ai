@@ -75,7 +75,6 @@ let simulator = (socket, key) => __awaiter(void 0, void 0, void 0, function* () 
     var x = 1250;
     var y = 500;
     let actionList = yield redis_1.default.lrange(key);
-    console.log(typeof actionList);
     for (let item in actionList) {
         let id = helper_1.default.getRandomNumber(100000000);
         let lifePoint = helper_1.default.getRandomNumber(100);
@@ -84,7 +83,6 @@ let simulator = (socket, key) => __awaiter(void 0, void 0, void 0, function* () 
         let value = actionList[item].split(":");
         x += parseInt(value[0]);
         y += parseInt(value[1]);
-        console.log({ x, y });
         let simulatorCell = {
             id,
             gender: true,
@@ -99,30 +97,6 @@ let simulator = (socket, key) => __awaiter(void 0, void 0, void 0, function* () 
         simulateCell[id] = simulatorCell;
         socket.emit("draw", simulateCell);
     }
-    return false;
-    /*
-    //cellPool[id].actionList.forEach((value: any, key: number) => {
-        let lifePoint: number = helper.getRandomNumber(100);
-        let color: string = cellPool[id].color;
-        let size: number = 1;
-
-        x += value.x;
-        y += value.y;
-
-        let simulatorCell: any = {
-            id,
-            gender: true,
-            actionList: [],
-            lifePoint,
-            x,
-            y,
-            color,
-            size
-        };
-        cellPool[id] = simulatorCell;
-        socket.emit("draw", cellPool);
-    //});
-    */
 });
 let draw = (socket) => {
     for (let i = 0; i < parseInt(process.argv[2]); i++) {
@@ -149,12 +123,10 @@ let draw = (socket) => {
     }
 };
 io.on("connection", (socket) => {
-    //socket.emit("draw", cellPool);
-    //draw(socket);
-    //moveCell(socket);
-    //
-    simulator(socket, 135764200517);
     console.log("connected: " + socket.id);
+    draw(socket);
+    moveCell(socket);
+    //simulator(socket, 135764200517);
 });
 process.on("SIGINT", () => {
     process.exit();
