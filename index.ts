@@ -46,7 +46,7 @@ let moveCell: any = (socket: any) => {
 
         socket.emit("draw", cellPool);
 
-    }, 1);
+    }, 0);
 
 
 

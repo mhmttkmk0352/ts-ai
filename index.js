@@ -66,9 +66,7 @@ let moveCell = (socket) => {
             //redis.lpush(item, `${way_x}:${way_y}`);
         }
         socket.emit("draw", cellPool);
-        console.log("actionList:");
-        console.log(cellPool);
-    }, 1);
+    }, 0);
 };
 // 879980138340
 let simulator = (socket, key) => __awaiter(void 0, void 0, void 0, function* () {
@@ -118,7 +116,6 @@ let draw = (socket) => {
                 size
             });
             socket.emit("draw", cellPool);
-            console.log({ cellPool: Object.keys(cellPool).length });
         }
     }
 };
