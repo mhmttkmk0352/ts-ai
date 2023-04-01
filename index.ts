@@ -57,42 +57,78 @@ let moveCell: any = (socket: any) => {
 
 
 
-let simulator = (socket: any, id: number, cellPool: any) => {
-    console.log(cellPool[720413192455]);
+let simulator = async (socket: any, key: number) => {
 
-    if (cellPool[id] && cellPool[id].actionList && cellPool[id].actionList.length > 0) {
-        let x: number = 1250;
-        let y: number = 500;
 
-        cellPool[id].actionList.forEach((value: any, key: number) => {
-            let lifePoint: number = helper.getRandomNumber(100);
-            let color: string = cellPool[id].color;
-            let size: number = 1;
+    var x: number = 1250;
+    var y: number = 500;
 
-            x += value.x;
-            y += value.y;
+    let actionList: any = await redis.lrange(key);
+    console.log(typeof actionList);
 
-            let simulatorCell: any = {
-                id,
-                gender: true,
-                actionList: [],
-                lifePoint,
-                x,
-                y,
-                color,
-                size
-            };
-            cellPool[id] = simulatorCell;
-            socket.emit("draw", cellPool);
-        });
+
+    for (let item in actionList) {
+        let id: number = helper.getRandomNumber(100000000);
+        let lifePoint: number = helper.getRandomNumber(100);
+        let color: string = "white";
+        let size: number = 1;
+
+        let value: any = actionList[item].split(":");
+
+
+        x += parseInt(value[0]);
+        y += parseInt(value[1]);
+
+        console.log({ x, y })
+
+        let simulatorCell = {
+            id,
+            gender: true,
+            actionList: [],
+            lifePoint,
+            x,
+            y,
+            color,
+            size
+        };
+        let simulateCell: any = {}
+        simulateCell[id] = simulatorCell;
+        socket.emit("draw", simulateCell);
 
     }
+
+    return false;
+    /*
+    //cellPool[id].actionList.forEach((value: any, key: number) => {
+        let lifePoint: number = helper.getRandomNumber(100);
+        let color: string = cellPool[id].color;
+        let size: number = 1;
+
+        x += value.x;
+        y += value.y;
+
+        let simulatorCell: any = {
+            id,
+            gender: true,
+            actionList: [],
+            lifePoint,
+            x,
+            y,
+            color,
+            size
+        };
+        cellPool[id] = simulatorCell;
+        socket.emit("draw", cellPool);
+    //});
+    */
+
+
 }
 
 
 
 let draw: any = (socket: any) => {
-    setInterval(() => {
+    for (let i: number = 0; i < parseInt(process.argv[2]); i++) {
         let id: number = helper.getRandomNumber(1000000000000);
         let lifePoint: number = helper.getRandomNumber(100);
         let x: number = 750;
@@ -117,8 +153,7 @@ let draw: any = (socket: any) => {
 
         }
 
-
-    }, 60000 * 60 * 24);
+    }
 }
 
 
@@ -129,10 +164,12 @@ io.on("connection", (socket: any) => {
 
 
 
-        //socket.emit("draw", cellPool);
-        draw(socket);
-        moveCell(socket);
-        //simulator(socket, 830499230008, cellPool);
+    //socket.emit("draw", cellPool);
+    //draw(socket);
+    //moveCell(socket);
+    //
+
+    simulator(socket, 135764200517);
 
 
     console.log("connected: " + socket.id);

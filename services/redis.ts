@@ -12,10 +12,19 @@ class RedisClass {
         return new Promise((resolve: any, reject: any) => {
             (async () => {
                 let lpushResult: any = await this.tedis.lpush(key, data);
-                resolve({ lpushResult });
+                resolve(lpushResult);
             })()
         });
 
+    }
+
+    lrange = (key: any) => {
+        return new Promise((resolve: any, reject: any) => {
+            (async () => {
+                let lrange: any = await this.tedis.lrange(key, -100, 999999999999);
+                resolve(lrange);
+            })()
+        });
     }
 }
 

@@ -22,16 +22,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 //Required Modules
-const fs = __importStar(require("fs"));
 const socketIO = __importStar(require("socket.io"));
 const http = __importStar(require("http"));
 const express = __importStar(require("express"));
-const path = __importStar(require("path"));
 // My Modules
 const redis_1 = __importDefault(require("./services/redis"));
 const helper_1 = __importDefault(require("./helpers/helper"));
@@ -64,34 +71,61 @@ let moveCell = (socket) => {
     }, 100);
 };
 // 879980138340
-let simulator = (socket, id, cellPool) => {
-    console.log(cellPool[720413192455]);
-    if (cellPool[id] && cellPool[id].actionList && cellPool[id].actionList.length > 0) {
-        let x = 1250;
-        let y = 500;
-        cellPool[id].actionList.forEach((value, key) => {
-            let lifePoint = helper_1.default.getRandomNumber(100);
-            let color = cellPool[id].color;
-            let size = 1;
-            x += value.x;
-            y += value.y;
-            let simulatorCell = {
-                id,
-                gender: true,
-                actionList: [],
-                lifePoint,
-                x,
-                y,
-                color,
-                size
-            };
-            cellPool[id] = simulatorCell;
-            socket.emit("draw", cellPool);
-        });
+let simulator = (socket, key) => __awaiter(void 0, void 0, void 0, function* () {
+    var x = 1250;
+    var y = 500;
+    let actionList = yield redis_1.default.lrange(key);
+    console.log(typeof actionList);
+    for (let item in actionList) {
+        let id = helper_1.default.getRandomNumber(100000000);
+        let lifePoint = helper_1.default.getRandomNumber(100);
+        let color = "white";
+        let size = 1;
+        let value = actionList[item].split(":");
+        x += parseInt(value[0]);
+        y += parseInt(value[1]);
+        console.log({ x, y });
+        let simulatorCell = {
+            id,
+            gender: true,
+            actionList: [],
+            lifePoint,
+            x,
+            y,
+            color,
+            size
+        };
+        let simulateCell = {};
+        simulateCell[id] = simulatorCell;
+        socket.emit("draw", simulateCell);
     }
-};
+    return false;
+    /*
+    //cellPool[id].actionList.forEach((value: any, key: number) => {
+        let lifePoint: number = helper.getRandomNumber(100);
+        let color: string = cellPool[id].color;
+        let size: number = 1;
+
+        x += value.x;
+        y += value.y;
+
+        let simulatorCell: any = {
+            id,
+            gender: true,
+            actionList: [],
+            lifePoint,
+            x,
+            y,
+            color,
+            size
+        };
+        cellPool[id] = simulatorCell;
+        socket.emit("draw", cellPool);
+    //});
+    */
+});
 let draw = (socket) => {
-    setInterval(() => {
+    for (let i = 0; i < parseInt(process.argv[2]); i++) {
         let id = helper_1.default.getRandomNumber(1000000000000);
         let lifePoint = helper_1.default.getRandomNumber(100);
         let x = 750;
@@ -112,23 +146,16 @@ let draw = (socket) => {
             socket.emit("draw", cellPool);
             console.log({ cellPool: Object.keys(cellPool).length });
         }
-    }, 600);
+    }
 };
 io.on("connection", (socket) => {
-    if (fs.existsSync(path.resolve("data", "logs.json"))) {
-        cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
-        //socket.emit("draw", cellPool);
-        draw(socket);
-        moveCell(socket);
-        //simulator(socket, 830499230008, cellPool);
-    }
-    else {
-        draw(socket);
-        moveCell(socket);
-    }
+    //socket.emit("draw", cellPool);
+    //draw(socket);
+    //moveCell(socket);
+    //
+    simulator(socket, 135764200517);
     console.log("connected: " + socket.id);
 });
 process.on("SIGINT", () => {
-    helper_1.default.save(cellPool);
     process.exit();
 });

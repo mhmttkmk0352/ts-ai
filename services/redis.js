@@ -16,7 +16,15 @@ class RedisClass {
             return new Promise((resolve, reject) => {
                 (() => __awaiter(this, void 0, void 0, function* () {
                     let lpushResult = yield this.tedis.lpush(key, data);
-                    resolve({ lpushResult });
+                    resolve(lpushResult);
+                }))();
+            });
+        };
+        this.lrange = (key) => {
+            return new Promise((resolve, reject) => {
+                (() => __awaiter(this, void 0, void 0, function* () {
+                    let lrange = yield this.tedis.lrange(key, -100, 999999999999);
+                    resolve(lrange);
                 }))();
             });
         };
