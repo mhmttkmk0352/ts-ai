@@ -132,7 +132,7 @@ io.on("connection", (socket: any) => {
         //socket.emit("draw", cellPool);
         //draw(socket);
         //moveCell(socket);
-        simulator(socket, 908922194198, cellPool);
+        simulator(socket, 830499230008, cellPool);
 
     }
     else {
@@ -142,6 +142,8 @@ io.on("connection", (socket: any) => {
 
     console.log("connected: " + socket.id);
 });
+
+
 
 
 

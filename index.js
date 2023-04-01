@@ -119,7 +119,7 @@ io.on("connection", (socket) => {
         //socket.emit("draw", cellPool);
         //draw(socket);
         //moveCell(socket);
-        simulator(socket, 908922194198, cellPool);
+        simulator(socket, 830499230008, cellPool);
     }
     else {
         //draw(socket);
