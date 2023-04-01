@@ -1,9 +1,7 @@
 //Required Modules
-import * as fs from "fs";
 import * as socketIO from "socket.io"
 import * as http from "http";
 import * as express from "express";
-import * as path from "path";
 
 // My Modules
 import redis from "./services/redis";
@@ -129,19 +127,13 @@ let draw: any = (socket: any) => {
 io.on("connection", (socket: any) => {
 
 
-    if (fs.existsSync(path.resolve("data", "logs.json"))) {
-        cellPool = JSON.parse(fs.readFileSync(path.resolve("data", "logs.json")).toString());
+
 
         //socket.emit("draw", cellPool);
         draw(socket);
         moveCell(socket);
         //simulator(socket, 830499230008, cellPool);
 
-    }
-    else {
-        draw(socket);
-        moveCell(socket);
-    }
 
     console.log("connected: " + socket.id);
 });
@@ -152,6 +144,5 @@ io.on("connection", (socket: any) => {
 
 
 process.on("SIGINT", () => {
-    helper.save(cellPool);
     process.exit();
 });

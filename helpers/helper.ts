@@ -15,10 +15,6 @@ class Helper {
             return -1;
         }
     }
-
-    save = (data: any) => {
-        fs.writeFileSync("data/logs.json", JSON.stringify(data));
-    }
 }
 
 export = new Helper;
