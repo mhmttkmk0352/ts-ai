@@ -19,10 +19,9 @@ function createCell(x, y, lifePoint, color, size) {
     context.fillStyle = color;
     context.fillRect(x, y, size, size);
     context.shadowColor = "black";
-    context.shadowBlur = 2;
-    context.shadowOffsetX = 2;
-    context.shadowOffsetY = 2;
-    console.log({ x, y, lifePoint });
+    context.shadowBlur = 12;
+    context.shadowOffsetX = 12;
+    context.shadowOffsetY = 12;
 }
 
 function whenLoad() {
