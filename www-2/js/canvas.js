@@ -71,7 +71,7 @@ window.onload = function () {
     whenLoad();
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    draw(300, 300, 10000);
+    draw(300, 300, 1000);
 
     moveCell();
 
