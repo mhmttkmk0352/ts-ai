@@ -8,10 +8,9 @@ var cellPool = {}
 function createCell(x, y, lifePoint, color, size) {
     context.fillStyle = color;
     context.fillRect(x, y, size, size);
-    // context.shadowColor = "black";
-    // context.shadowBlur = 1;
-    // context.shadowOffsetX = 4;
-    // context.shadowOffsetY = 4;
+    context.shadowColor = "black";
+
+
 }
 
 
@@ -29,12 +28,12 @@ let moveCell = () => {
 
 
 
-    }, 1);
+    }, 0);
 }
 
 
-let draw = () => {
-    for (let i = 0; i < 100; i++) {
+let draw = (cellCount) => {
+    for (let i = 0; i < cellCount; i++) {
         let id = getRandomNumber(1000000000000);
         let lifePoint = getRandomNumber(100);
         let x = 750;
@@ -75,7 +74,7 @@ window.onload = function () {
     whenLoad();
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    draw();
+    draw(5000);
     moveCell();
     console.log(
         cellPool
