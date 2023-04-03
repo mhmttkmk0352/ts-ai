@@ -32,12 +32,10 @@ let moveCell = () => {
 }
 
 
-let draw = (cellCount) => {
+let draw = (x, y, cellCount) => {
     for (let i = 0; i < cellCount; i++) {
         let id = getRandomNumber(1000000000000);
         let lifePoint = getRandomNumber(100);
-        let x = 750;
-        let y = 500;
         let color = `rgb(${getRandomNumber(255)}, ${getRandomNumber(255)},${getRandomNumber(255)})`;
         let size = 1;
 
@@ -73,7 +71,8 @@ window.onload = function () {
     whenLoad();
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    draw(5000);
+    draw(300, 300, 5000);
+    draw(600, 300, 5000);
     moveCell();
 
 }
