@@ -28,7 +28,7 @@ let moveCell = () => {
 
 
 
-    }, 0);
+    }, 1);
 }
 
 
@@ -71,8 +71,8 @@ window.onload = function () {
     whenLoad();
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    draw(300, 300, 5000);
-    draw(600, 300, 5000);
+    draw(300, 300, 10000);
+
     moveCell();
 
 }
