@@ -42,7 +42,6 @@ let draw = (cellCount) => {
         let size = 1;
 
         if (!cellPool[id]) {
-            console.log();
             cellPool[id] = {
                 id,
                 gender: true,
@@ -76,7 +75,5 @@ window.onload = function () {
 
     draw(5000);
     moveCell();
-    console.log(
-        cellPool
-    );
+
 }
