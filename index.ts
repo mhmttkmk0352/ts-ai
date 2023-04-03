@@ -93,6 +93,9 @@ let simulator = async (socket: any, key: number) => {
 
 
 let draw: any = (socket: any) => {
+    if (!process.argv[2]) {
+        console.log("#usage: npm start 100");
+    }
     for (let i: number = 0; i < parseInt(process.argv[2]); i++) {
         let id: number = helper.getRandomNumber(1000000000000);
         let lifePoint: number = helper.getRandomNumber(100);
