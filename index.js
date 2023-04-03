@@ -97,6 +97,9 @@ let simulator = (socket, key) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 let draw = (socket) => {
+    if (!process.argv[2]) {
+        console.log("#usage: npm start 100");
+    }
     for (let i = 0; i < parseInt(process.argv[2]); i++) {
         let id = helper_1.default.getRandomNumber(1000000000000);
         let lifePoint = helper_1.default.getRandomNumber(100);
