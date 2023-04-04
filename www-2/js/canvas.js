@@ -27,7 +27,7 @@ let collitionAvoidance = (new_x, new_y) => {
 
 let moveCell = () => {
     setInterval(() => {
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        //context.clearRect(0, 0, canvas.width, canvas.height);
         for (let item in cellPool) {
             let way_x = getRandomWay();
             let way_y = getRandomWay();
@@ -40,9 +40,9 @@ let moveCell = () => {
             }
  
             createCell(cellPool[item].x, cellPool[item].y, cellPool[item].lifePoint, cellPool[item].color, cellPool[item].size);
-            
+
         }
-    }, 1);
+    }, 10);
 }
 
 
