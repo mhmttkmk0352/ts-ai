@@ -1,9 +1,6 @@
-
 var canvas = "";
 var context = "";
 var cellPool = {}
-
-
 
 function createCell(x, y, lifePoint, color, size) {
     context.fillStyle = color;
@@ -12,9 +9,7 @@ function createCell(x, y, lifePoint, color, size) {
     // context.shadowBlur = 6;
     // context.shadowOffsetX = 6;
     // context.shadowOffsetY = 6;
-
 }
-
 
 let moveCell = () => {
     setInterval(() => {
@@ -28,9 +23,6 @@ let moveCell = () => {
 
             createCell(cellPool[item].x, cellPool[item].y, cellPool[item].lifePoint, cellPool[item].color, cellPool[item].size);
         }
-
-
-
     }, 1);
 }
 
@@ -58,24 +50,15 @@ let draw = (x, y, cellCount) => {
 }
 
 
-
 function whenLoad() {
     canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
-
     canvas.width = 1900;
     canvas.height = 1200;
 }
 
-
-
-
 window.onload = function () {
     whenLoad();
-
-
     draw(900, 400, 5000);
-
     moveCell();
-
 }
