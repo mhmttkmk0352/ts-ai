@@ -51,7 +51,7 @@ const startApp = () => {
                 if (result.status === true) {
                     if (!successPool[counter]) {
                         successPool[counter] = result;
-                        yield client.set(result.command, result.command);
+                        yield client.set(counter.toString(), result.command);
                         counter++;
                     }
                     // console.log("\x1B[32m");
