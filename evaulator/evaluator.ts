@@ -1,3 +1,5 @@
+let successPool: any = [];
+
 const getRandChar: any = () => {
   return String.fromCharCode(Math.floor(Math.random() * 255));
 };
@@ -8,22 +10,36 @@ const randCodeCreator: any = () => {
 
 const check: any = (command: string) => {
   try {
-    return { status: true, result: eval(command) };
+    return { status: true, result: eval(command), dec: command.charCodeAt(0) };
   } catch (err) {
-    return { status: false };
+    return { status: false, tried: command };
   }
 };
 
 const startApp: any = () => {
-  for (let i = 0; i < 100; i++) {
-    const result = check(randCodeCreator());
-    console.log(result);
-    if (result.status === true) {
-      console.log({ result });
-    } else {
-      console.log({ result });
-    }
-  }
+  return new Promise((resolve: any, reject: any) => {
+    (async () => {
+      for (let i = 0; i < 100; i++) {
+        const result = check(randCodeCreator());
+        if (result.status === true) {
+          successPool.push(result);
+        }
+      }
+
+      resolve(successPool);
+    })();
+  });
 };
 
-startApp();
+const test: any = () => {
+  const result = check( String.fromCharCode(32));
+  console.log({ testResult: result });
+};
+
+// startApp().then((r: any) => {
+//   console.log(r);
+// });
+
+
+console.log("############ test result #############");
+test();
