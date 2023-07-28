@@ -25,7 +25,7 @@ const check: any = (command: string) => {
     return {
       status: true,
       command,
-      result: eval(command)
+      result: eval(command),
     };
   } catch (err) {
     return { status: false, tried: command };
@@ -35,16 +35,16 @@ const check: any = (command: string) => {
 const startApp: any = () => {
   return new Promise((resolve: any, reject: any) => {
     (async () => {
-      for (let i = 0; i < 100000; i++) {
-        const result = check(await randCodeCreator(25));
+      for (let i = 0; i < 1000000; i++) {
+        const result = check(await randCodeCreator(255));
 
         if (result.status === true) {
           if (!successPool[result.dec]) {
-            successPool[result.dec] = result;
+            successPool[new Date().getTime()] = result;
           }
-            // console.log("\x1B[32m");
-            // console.log(result);
-            // console.log("\x1B[32m");
+          // console.log("\x1B[32m");
+          // console.log(result);
+          // console.log("\x1B[32m");
         } else {
           //   console.log("\x1B[31m");
           //   console.log(result);
