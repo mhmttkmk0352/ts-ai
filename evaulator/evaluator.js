@@ -41,15 +41,15 @@ const check = (command) => {
 const startApp = () => {
     return new Promise((resolve, reject) => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
-            for (let i = 0; i < 10000000; i++) {
-                const result = check(yield randCodeCreator(255));
+            for (let i = 0; i < 100000; i++) {
+                const result = check(yield randCodeCreator(25));
                 if (result.status === true) {
                     if (!successPool[result.dec]) {
                         successPool[result.dec] = result;
                     }
-                    //   console.log("\x1B[32m");
-                    //   console.log(result);
-                    //   console.log("\x1B[32m");
+                    console.log("\x1B[32m");
+                    console.log(result);
+                    console.log("\x1B[32m");
                 }
                 else {
                     //   console.log("\x1B[31m");

@@ -42,9 +42,9 @@ const startApp: any = () => {
           if (!successPool[result.dec]) {
             successPool[result.dec] = result;
           }
-          //   console.log("\x1B[32m");
-          //   console.log(result);
-          //   console.log("\x1B[32m");
+            // console.log("\x1B[32m");
+            // console.log(result);
+            // console.log("\x1B[32m");
         } else {
           //   console.log("\x1B[31m");
           //   console.log(result);
