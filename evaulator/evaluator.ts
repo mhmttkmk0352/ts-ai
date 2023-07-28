@@ -1,3 +1,7 @@
+import { createClient } from "redis";
+const client = createClient();
+client.connect();
+
 let successPool: any = {};
 let counter: number = 0;
 
@@ -40,8 +44,9 @@ const startApp: any = () => {
         const result = check(await randCodeCreator(255));
 
         if (result.status === true) {
-          if (!successPool[result.dec]) {
+          if (!successPool[counter]) {
             successPool[counter] = result;
+            await client.set(counter.toString(), result.command);
             counter++;
           }
           // console.log("\x1B[32m");

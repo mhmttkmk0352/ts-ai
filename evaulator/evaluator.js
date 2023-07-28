@@ -8,6 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+const redis_1 = require("redis");
+const client = (0, redis_1.createClient)();
+client.connect();
 let successPool = {};
 let counter = 0;
 const getRandChar = () => {
@@ -45,8 +49,9 @@ const startApp = () => {
             for (let i = 0; i < 1000000; i++) {
                 const result = check(yield randCodeCreator(255));
                 if (result.status === true) {
-                    if (!successPool[result.dec]) {
+                    if (!successPool[counter]) {
                         successPool[counter] = result;
+                        yield client.set(result.command, result.command);
                         counter++;
                     }
                     // console.log("\x1B[32m");
