@@ -2,6 +2,7 @@ var canvas = "";
 var context = "";
 var cellPool = {}
 
+
 function createCell(x, y, lifePoint, color, size) {
     context.fillStyle = color;
     context.fillRect(x, y, size, size);
@@ -27,7 +28,7 @@ let collitionAvoidance = (new_x, new_y) => {
 
 let moveCell = () => {
     setInterval(() => {
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        //context.clearRect(0, 0, canvas.width, canvas.height);
         for (let item in cellPool) {
             let way_x = getRandomWay();
             let way_y = getRandomWay();
@@ -38,7 +39,6 @@ let moveCell = () => {
                 cellPool[item].x = new_x;
                 cellPool[item].y = new_y;
             }
- 
             createCell(cellPool[item].x, cellPool[item].y, cellPool[item].lifePoint, cellPool[item].color, cellPool[item].size);
 
         }
@@ -79,5 +79,8 @@ function whenLoad() {
 window.onload = function () {
     whenLoad();
     draw(900, 400, 100);
+    draw(1100, 400, 100);
+    draw(500, 400, 100);
+    
     moveCell();
 }
