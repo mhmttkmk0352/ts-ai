@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-let successPool = [];
+let successPool = {};
 const getRandChar = () => {
     return String.fromCharCode(Math.floor(Math.random() * 255));
 };
@@ -30,10 +30,12 @@ const check = (command) => {
 const startApp = () => {
     return new Promise((resolve, reject) => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 10000000; i++) {
                 const result = check(randCodeCreator());
                 if (result.status === true) {
-                    successPool.push(result);
+                    if (!successPool[result.dec]) {
+                        successPool[result.dec] = result;
+                    }
                 }
             }
             resolve(successPool);

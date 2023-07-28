@@ -1,4 +1,4 @@
-let successPool: any = [];
+let successPool: any = {};
 
 const getRandChar: any = () => {
   return String.fromCharCode(Math.floor(Math.random() * 255));
@@ -23,10 +23,12 @@ const check: any = (command: string) => {
 const startApp: any = () => {
   return new Promise((resolve: any, reject: any) => {
     (async () => {
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 10000000; i++) {
         const result = check(randCodeCreator());
         if (result.status === true) {
-          successPool.push(result);
+          if(!successPool[result.dec]){
+            successPool[result.dec] = result;
+          }
         }
       }
 
