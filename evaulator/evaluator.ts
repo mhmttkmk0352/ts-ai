@@ -46,7 +46,7 @@ const startApp: any = () => {
         if (result.status === true) {
           if (!successPool[counter]) {
             successPool[counter] = result;
-            await client.set(result.command, result.result);
+            await client.set(result.command, counter.toString());
             counter++;
           }
           // console.log("\x1B[32m");
