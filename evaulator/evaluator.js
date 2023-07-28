@@ -31,8 +31,7 @@ const check = (command) => {
         return {
             status: true,
             command,
-            result: eval(command),
-            dec: command.charCodeAt(0),
+            result: eval(command)
         };
     }
     catch (err) {
@@ -42,7 +41,7 @@ const check = (command) => {
 const startApp = () => {
     return new Promise((resolve, reject) => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
-            for (let i = 0; i < 100000; i++) {
+            for (let i = 0; i < 10000000; i++) {
                 const result = check(yield randCodeCreator(255));
                 if (result.status === true) {
                     if (!successPool[result.dec]) {
