@@ -10,7 +10,11 @@ const randCodeCreator: any = () => {
 
 const check: any = (command: string) => {
   try {
-    return { status: true, result: eval(command), dec: command.charCodeAt(0) };
+    return {
+      status: true,
+      result: eval(command),
+      dec: command.charCodeAt(0),
+    };
   } catch (err) {
     return { status: false, tried: command };
   }
@@ -32,14 +36,13 @@ const startApp: any = () => {
 };
 
 const test: any = () => {
-  const result = check( String.fromCharCode(32));
+  const result = check(String.fromCharCode(32));
   console.log({ testResult: result });
 };
 
-// startApp().then((r: any) => {
-//   console.log(r);
-// });
-
+startApp().then((r: any) => {
+  console.log(r);
+});
 
 console.log("############ test result #############");
-test();
+//test();
