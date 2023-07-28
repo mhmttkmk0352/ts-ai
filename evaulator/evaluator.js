@@ -12,13 +12,25 @@ let successPool = {};
 const getRandChar = () => {
     return String.fromCharCode(Math.floor(Math.random() * 255));
 };
-const randCodeCreator = () => {
-    return getRandChar();
+const getRandNumber = (max) => {
+    return Math.floor(Math.random() * max);
+};
+const randCodeCreator = (max) => {
+    return new Promise((resolve, reject) => {
+        (() => __awaiter(void 0, void 0, void 0, function* () {
+            let allCodes = "";
+            for (let i = 0; i < getRandNumber(max); i++) {
+                allCodes += getRandChar();
+            }
+            resolve(allCodes);
+        }))();
+    });
 };
 const check = (command) => {
     try {
         return {
             status: true,
+            command,
             result: eval(command),
             dec: command.charCodeAt(0),
         };
@@ -30,12 +42,20 @@ const check = (command) => {
 const startApp = () => {
     return new Promise((resolve, reject) => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
-            for (let i = 0; i < 10000000; i++) {
-                const result = check(randCodeCreator());
+            for (let i = 0; i < 100000; i++) {
+                const result = check(yield randCodeCreator(255));
                 if (result.status === true) {
                     if (!successPool[result.dec]) {
                         successPool[result.dec] = result;
                     }
+                    //   console.log("\x1B[32m");
+                    //   console.log(result);
+                    //   console.log("\x1B[32m");
+                }
+                else {
+                    //   console.log("\x1B[31m");
+                    //   console.log(result);
+                    //   console.log("\x1B[31m");
                 }
             }
             resolve(successPool);
@@ -43,11 +63,15 @@ const startApp = () => {
     });
 };
 const test = () => {
-    const result = check(String.fromCharCode(32));
+    const result = check("'$\x15é\x8F¦ÅÞÂ¬¶f!F'");
     console.log({ testResult: result });
 };
-startApp().then((r) => {
-    console.log(r);
-});
-console.log("############ test result #############");
-//test();
+if (process.argv[2] === "test") {
+    console.log("############ test result #############");
+    test();
+}
+else if (process.argv[2] === "prod") {
+    startApp().then((r) => {
+        console.log(r);
+    });
+}
