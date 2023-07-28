@@ -1,4 +1,5 @@
 let successPool: any = {};
+let counter: number = 0;
 
 const getRandChar: any = () => {
   return String.fromCharCode(Math.floor(Math.random() * 255));
@@ -40,7 +41,8 @@ const startApp: any = () => {
 
         if (result.status === true) {
           if (!successPool[result.dec]) {
-            successPool[new Date().getTime()] = result;
+            successPool[counter] = result;
+            counter++;
           }
           // console.log("\x1B[32m");
           // console.log(result);

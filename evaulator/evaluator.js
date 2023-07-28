@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 let successPool = {};
+let counter = 0;
 const getRandChar = () => {
     return String.fromCharCode(Math.floor(Math.random() * 255));
 };
@@ -45,7 +46,8 @@ const startApp = () => {
                 const result = check(yield randCodeCreator(255));
                 if (result.status === true) {
                     if (!successPool[result.dec]) {
-                        successPool[new Date().getTime()] = result;
+                        successPool[counter] = result;
+                        counter++;
                     }
                     // console.log("\x1B[32m");
                     // console.log(result);
