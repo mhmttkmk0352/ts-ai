@@ -58,12 +58,13 @@ const startApp = () => {
     return new Promise((resolve, reject) => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
             for (let i = 0; i < 1000000; i++) {
-                const result = check(yield randCodeCreator(25));
+                const result = yield check(yield randCodeCreator(25));
+                console.log({ id: counter, result });
+                counter++;
                 if (result.status === true) {
                     if (!successPool[counter]) {
                         !!result.result ? (successPool[counter] = result) : "";
                         //await client.set(result.command, counter.toString());
-                        counter++;
                     }
                     // console.log("\x1B[32m");
                     // console.log(result);

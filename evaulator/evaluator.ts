@@ -52,15 +52,15 @@ const startApp: any = () => {
   return new Promise((resolve: any, reject: any) => {
     (async () => {
       for (let i = 0; i < 1000000; i++) {
-        const result = check(await randCodeCreator(25));
-
+        const result = await check(await randCodeCreator(25));
+        console.log({ id: counter, result });
+        counter++;
         if (result.status === true) {
           if (!successPool[counter]) {
             !!result.result ? (successPool[counter] = result) : "";
             //await client.set(result.command, counter.toString());
-            console.log({ id: counter, cmd: result.command });
-            counter++;
           }
+
           // console.log("\x1B[32m");
           // console.log(result);
           // console.log("\x1B[32m");
