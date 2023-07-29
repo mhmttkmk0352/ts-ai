@@ -1,7 +1,7 @@
 import { createClient } from "redis";
 import { exec } from "child_process";
-// const client = createClient();
-// client.connect();
+const client = createClient();
+client.connect();
 
 let successPool: any = {};
 let counter: number = 0;
@@ -31,6 +31,8 @@ const check: any = (command: any) => {
     (async () => {
       try {
         exec(command, (error: any, stdout: any, stderr: any) => {
+          console.log({ error, stdout, stderr });
+          
           if (stdout) {
             resolve({
               status: true,
@@ -38,11 +40,11 @@ const check: any = (command: any) => {
               result: { error, stdout, stderr },
             });
           } else {
-            resolve({ status: false, tried: command });
+            resolve("");
           }
         });
       } catch (err) {
-        resolve({ status: false, tried: command });
+        resolve("");
       }
     })();
   });
@@ -53,12 +55,12 @@ const startApp: any = () => {
     (async () => {
       for (let i = 0; i < 1000000; i++) {
         const result = await check(await randCodeCreator(25));
-        console.log({ id: counter, result });
-        counter++;
+
         if (result.status === true) {
           if (!successPool[counter]) {
             !!result.result ? (successPool[counter] = result) : "";
-            //await client.set(result.command, counter.toString());
+            await client.set(result.command, counter.toString());
+            counter++;
           }
 
           // console.log("\x1B[32m");

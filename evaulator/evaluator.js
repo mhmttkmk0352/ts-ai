@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const redis_1 = require("redis");
 const child_process_1 = require("child_process");
-// const client = createClient();
-// client.connect();
+const client = (0, redis_1.createClient)();
+client.connect();
 let successPool = {};
 let counter = 0;
 const getRandChar = () => {
@@ -36,6 +37,7 @@ const check = (command) => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 (0, child_process_1.exec)(command, (error, stdout, stderr) => {
+                    console.log({ error, stdout, stderr });
                     if (stdout) {
                         resolve({
                             status: true,
@@ -44,12 +46,12 @@ const check = (command) => {
                         });
                     }
                     else {
-                        resolve({ status: false, tried: command });
+                        resolve("");
                     }
                 });
             }
             catch (err) {
-                resolve({ status: false, tried: command });
+                resolve("");
             }
         }))();
     });
@@ -59,12 +61,11 @@ const startApp = () => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
             for (let i = 0; i < 1000000; i++) {
                 const result = yield check(yield randCodeCreator(25));
-                console.log({ id: counter, result });
-                counter++;
                 if (result.status === true) {
                     if (!successPool[counter]) {
                         !!result.result ? (successPool[counter] = result) : "";
-                        //await client.set(result.command, counter.toString());
+                        yield client.set(result.command, counter.toString());
+                        counter++;
                     }
                     // console.log("\x1B[32m");
                     // console.log(result);
