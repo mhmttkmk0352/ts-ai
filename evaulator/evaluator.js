@@ -9,9 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const redis_1 = require("redis");
-const client = (0, redis_1.createClient)();
-client.connect();
+const child_process_1 = require("child_process");
+// const client = createClient();
+// client.connect();
 let successPool = {};
 let counter = 0;
 const getRandChar = () => {
@@ -32,26 +32,32 @@ const randCodeCreator = (max) => {
     });
 };
 const check = (command) => {
-    try {
-        return {
-            status: true,
-            command,
-            result: eval(command),
-        };
-    }
-    catch (err) {
-        return { status: false, tried: command };
-    }
+    return new Promise((resolve, reject) => {
+        (() => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                (0, child_process_1.exec)(command, (error, stdout, stderr) => {
+                    resolve({
+                        status: true,
+                        command,
+                        result: { error, stdout, stderr },
+                    });
+                });
+            }
+            catch (err) {
+                resolve({ status: false, tried: command });
+            }
+        }))();
+    });
 };
 const startApp = () => {
     return new Promise((resolve, reject) => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
-            for (let i = 0; i < 10000000; i++) {
+            for (let i = 0; i < 1000000; i++) {
                 const result = check(yield randCodeCreator(25));
                 if (result.status === true) {
                     if (!successPool[counter]) {
-                        successPool[counter] = result;
-                        yield client.set(result.command, counter.toString());
+                        !!result.result ? (successPool[counter] = result) : "";
+                        //await client.set(result.command, counter.toString());
                         counter++;
                     }
                     // console.log("\x1B[32m");
@@ -68,10 +74,10 @@ const startApp = () => {
         }))();
     });
 };
-const test = () => {
-    const result = check("'$\x15é\x8F¦ÅÞÂ¬¶f!F'");
+const test = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield check(`dir`);
     console.log({ testResult: result });
-};
+});
 if (process.argv[2] === "test") {
     console.log("############ test result #############");
     test();

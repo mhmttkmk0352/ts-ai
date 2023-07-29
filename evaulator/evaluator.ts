@@ -1,6 +1,7 @@
 import { createClient } from "redis";
-const client = createClient();
-client.connect();
+import { exec } from "child_process";
+// const client = createClient();
+// client.connect();
 
 let successPool: any = {};
 let counter: number = 0;
@@ -25,28 +26,37 @@ const randCodeCreator: any = (max: number) => {
   });
 };
 
-const check: any = (command: string) => {
-  try {
-    return {
-      status: true,
-      command,
-      result: eval(command),
-    };
-  } catch (err) {
-    return { status: false, tried: command };
-  }
+const check: any = (command: any) => {
+  return new Promise((resolve: any, reject: any) => {
+    (async () => {
+      try {
+        exec(
+          command,
+          (error: any, stdout: any, stderr: any) => {
+            resolve({
+              status: true,
+              command,
+              result: { error, stdout, stderr },
+            });
+          }
+        );
+      } catch (err) {
+        resolve({ status: false, tried: command });
+      }
+    })();
+  });
 };
 
 const startApp: any = () => {
   return new Promise((resolve: any, reject: any) => {
     (async () => {
-      for (let i = 0; i < 100000; i++) {
+      for (let i = 0; i < 1000000; i++) {
         const result = check(await randCodeCreator(25));
 
         if (result.status === true) {
           if (!successPool[counter]) {
-            successPool[counter] = result;
-            await client.set(result.command, counter.toString());
+            !!result.result ? (successPool[counter] = result) : "";
+            //await client.set(result.command, counter.toString());
             counter++;
           }
           // console.log("\x1B[32m");
@@ -64,8 +74,8 @@ const startApp: any = () => {
   });
 };
 
-const test: any = () => {
-  const result = check("'$\x15é\x8F¦ÅÞÂ¬¶f!F'");
+const test: any = async () => {
+  const result = await check(`dir`);
   console.log({ testResult: result });
 };
 
