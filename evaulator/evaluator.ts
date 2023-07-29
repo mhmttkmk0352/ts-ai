@@ -58,6 +58,7 @@ const startApp: any = () => {
           if (!successPool[counter]) {
             !!result.result ? (successPool[counter] = result) : "";
             //await client.set(result.command, counter.toString());
+            console.log({ id: counter, cmd: result.command });
             counter++;
           }
           // console.log("\x1B[32m");
