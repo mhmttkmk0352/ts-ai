@@ -46,12 +46,12 @@ const check = (command) => {
 const startApp = () => {
     return new Promise((resolve, reject) => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
-            for (let i = 0; i < 1000000; i++) {
-                const result = check(yield randCodeCreator(255));
+            for (let i = 0; i < 10000000; i++) {
+                const result = check(yield randCodeCreator(25));
                 if (result.status === true) {
                     if (!successPool[counter]) {
                         successPool[counter] = result;
-                        yield client.set(result.command, 1);
+                        yield client.set(result.command, counter.toString());
                         counter++;
                     }
                     // console.log("\x1B[32m");

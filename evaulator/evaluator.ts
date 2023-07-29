@@ -40,8 +40,8 @@ const check: any = (command: string) => {
 const startApp: any = () => {
   return new Promise((resolve: any, reject: any) => {
     (async () => {
-      for (let i = 0; i < 1000000; i++) {
-        const result = check(await randCodeCreator(255));
+      for (let i = 0; i < 10000000; i++) {
+        const result = check(await randCodeCreator(25));
 
         if (result.status === true) {
           if (!successPool[counter]) {
