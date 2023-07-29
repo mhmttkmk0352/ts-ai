@@ -30,16 +30,17 @@ const check: any = (command: any) => {
   return new Promise((resolve: any, reject: any) => {
     (async () => {
       try {
-        exec(
-          command,
-          (error: any, stdout: any, stderr: any) => {
+        exec(command, (error: any, stdout: any, stderr: any) => {
+          if (stdout) {
             resolve({
               status: true,
               command,
               result: { error, stdout, stderr },
             });
+          } else {
+            resolve({ status: false, tried: command });
           }
-        );
+        });
       } catch (err) {
         resolve({ status: false, tried: command });
       }

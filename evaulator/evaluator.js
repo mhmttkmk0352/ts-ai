@@ -36,11 +36,16 @@ const check = (command) => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 (0, child_process_1.exec)(command, (error, stdout, stderr) => {
-                    resolve({
-                        status: true,
-                        command,
-                        result: { error, stdout, stderr },
-                    });
+                    if (stdout) {
+                        resolve({
+                            status: true,
+                            command,
+                            result: { error, stdout, stderr },
+                        });
+                    }
+                    else {
+                        resolve({ status: false, tried: command });
+                    }
                 });
             }
             catch (err) {
