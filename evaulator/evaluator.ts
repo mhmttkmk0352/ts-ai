@@ -40,7 +40,7 @@ const check: any = (command: string) => {
 const startApp: any = () => {
   return new Promise((resolve: any, reject: any) => {
     (async () => {
-      for (let i = 0; i < 10000000; i++) {
+      for (let i = 0; i < 100000; i++) {
         const result = check(await randCodeCreator(25));
 
         if (result.status === true) {
