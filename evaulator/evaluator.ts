@@ -32,7 +32,7 @@ const check: any = (command: any) => {
       try {
         exec(command, (error: any, stdout: any, stderr: any) => {
           console.log({ error, stdout, stderr });
-          
+
           if (stdout) {
             resolve({
               status: true,
