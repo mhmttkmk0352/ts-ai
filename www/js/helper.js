@@ -1,3 +1,3 @@
-function getRandomNumber(lastNumber) {
-    return Math.floor(Math.random() * lastNumber);
+function getRandomNumber (lastNumber) {
+  return Math.floor(Math.random() * lastNumber);
 }
